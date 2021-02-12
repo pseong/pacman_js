@@ -18,7 +18,7 @@
 
 <body>
     <div id="tableMap" class="board-padding board"></div>
-    <img id="divMan" src="pacman.png" style="position: absolute; left: 20px; top: 20px;"></img>body>
+    <img id="divMan" src="pacman.png" style="position: absolute; left: 28px; top: 28px;"></img>
 </body>
 <script>
 var divMan = document.getElementById('divMan');
@@ -72,7 +72,7 @@ drawBoard();
 
 var arrStar = [];
 setInterval(main, 17);
-setInterval(animation, 100);
+//setInterval(animation, 100);
 
 function main() {
     moveBall();
@@ -89,14 +89,72 @@ function animation() {
 }
 
 document.onkeypress = function(e) {
-    man.x = Math.floor(remove_px(divMan.style.left)/20);
-    man.y = Math.floor(remove_px(divMan.style.top)/20);
-    real_x = remove_px(divMan.style.left);
-    real_y = remove_px(divMan.style.top);
+    switch(e.keyCode) {
+    case 119:
+        man.next_dir = 1;
+        break;
+    case 100:
+        man.next_dir = 2;
+        break;
+    case 115:
+        man.next_dir = 3;
+        break;
+    case 97:
+        man.next_dir = 4;
+        break;
+    }
 }
 
 function moveBall() {
-
+    real_x = Number(divMan.style.left.split("px")[0]);
+    real_y = Number(divMan.style.top.split("px")[0]);
+    man.x = Math.floor(real_x/28);
+    man.y = Math.floor(real_y/28);
+    console.log("x : " + real_x % 28);
+    console.log("y : " + real_y % 28);
+    if(real_x % 28 == 0 && real_y % 28 == 0) {
+        switch(man.next_dir) {
+        case 1:
+            if(map(man.x, man.y-1) != 1) {
+                man.dir = 1;
+                man.next_dir = 0;
+            }
+            break;
+        case 2:
+            if(map(man.x+1, man.y) != 1) {
+                man.dir = 2;
+                man.next_dir = 0;
+            }
+            break;
+        case 3:
+            if(map(man.x, man.y+1) != 1) {
+                man.dir = 3;
+                man.next_dir = 0;
+            }
+            break;
+        case 4:
+            if(map(man.x-1, man.y) != 1) {
+                man.dir = 4;
+                man.next_dir = 0;
+            }
+            break;
+        }
+    }
+    
+    switch(man.dir) {
+    case 1:
+        divMan.style.top = real_y - 2 + "px";
+        break;
+    case 2:
+        divMan.style.left = real_x + 2 + "px";
+        break;
+    case 3:
+        divMan.style.top = real_y + 2 + "px";
+        break;
+    case 4:
+        divMan.style.left = real_x - 2 + "px";
+        break;
+    }
 }
 
 function drawBoard() {
@@ -104,10 +162,10 @@ function drawBoard() {
         for(var j = 0; j < arrMap[i].length; j++) {
             var cell = document.createElement('div');
             cell.style.position = 'absolute';
-            cell.style.height = "20px";
-            cell.style.width = "20px";
-            cell.style.left = j * 20 + "px";
-            cell.style.top = i * 20 + "px";
+            cell.style.height = "28px";
+            cell.style.width = "28px";
+            cell.style.left = j * 28 + "px";
+            cell.style.top = i * 28 + "px";
 
             if(arrMap[i][j] == 0) {
                 cell.style.backgroundColor = "black";
