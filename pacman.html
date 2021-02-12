@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pacman</title>
+    <meta charsset="utf-8">
+    <style>
+        .board{
+            border: 0px solid black;
+        }
+        .board-padding{
+            background-color: whilte;
+            border: 0px solid black;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            padding: calc(var(--cell-size) / 2);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tableMap" class="board-padding board"></div>
+    <img id="divMan" src="pacman.png" style="position: absolute; left: 20px; top: 20px;"></img>body>
+</body>
+<script>
+var divMan = document.getElementById('divMan');
+var tableBoard = document.getElementById('tableMap');
+
+var man = {
+    dir: 2, // 1 : up, 2: right, 3: down, 4: left
+    next_dir:2,
+    speed:2,
+    animation:1
+}
+
+function map(x, y) {
+    return arrMap[y][x];
+}
+
+var arrMap = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+]
+
+drawBoard();
+
+var arrStar = [];
+setInterval(main, 17);
+setInterval(animation, 100);
+
+function main() {
+    moveBall();
+}
+
+function animation() {
+    if(man.animation == 1) {
+        man.animation = 2;
+        divMan.src="pacman2.png";
+    } else {
+        man.animation = 1;
+        divMan.src="pacman.png";
+    }
+}
+
+document.onkeypress = function(e) {
+    man.x = Math.floor(remove_px(divMan.style.left)/20);
+    man.y = Math.floor(remove_px(divMan.style.top)/20);
+    real_x = remove_px(divMan.style.left);
+    real_y = remove_px(divMan.style.top);
+}
+
+function moveBall() {
+
+}
+
+function drawBoard() {
+    for(var i = 0; i < arrMap.length; i++) {
+        for(var j = 0; j < arrMap[i].length; j++) {
+            var cell = document.createElement('div');
+            cell.style.position = 'absolute';
+            cell.style.height = "20px";
+            cell.style.width = "20px";
+            cell.style.left = j * 20 + "px";
+            cell.style.top = i * 20 + "px";
+
+            if(arrMap[i][j] == 0) {
+                cell.style.backgroundColor = "black";
+            } else {
+                cell.style.backgroundColor = "blue";
+            }
+
+            tableBoard.appendChild(cell);
+        }
+    }
+}
+</script>
+</html>
