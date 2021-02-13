@@ -72,7 +72,7 @@ drawBoard();
 
 var arrStar = [];
 setInterval(main, 17);
-//setInterval(animation, 100);
+setInterval(animation, 100);
 
 function main() {
     moveBall();
@@ -110,31 +110,33 @@ function moveBall() {
     real_y = Number(divMan.style.top.split("px")[0]);
     man.x = Math.floor(real_x/28);
     man.y = Math.floor(real_y/28);
-    console.log("x : " + real_x % 28);
-    console.log("y : " + real_y % 28);
     if(real_x % 28 == 0 && real_y % 28 == 0) {
         switch(man.next_dir) {
         case 1:
             if(map(man.x, man.y-1) != 1) {
                 man.dir = man.next_dir;
+                divMan.style.transform = "rotate(0deg)";
                 man.next_dir = 0;
             }
             break;
         case 2:
             if(map(man.x+1, man.y) != 1) {
                 man.dir = man.next_dir;
+                divMan.style.transform = "rotate(90deg)";
                 man.next_dir = 0;
             }
             break;
         case 3:
             if(map(man.x, man.y+1) != 1) {
                 man.dir = man.next_dir;
+                divMan.style.transform = "rotate(180deg)";
                 man.next_dir = 0;
             }
             break;
         case 4:
             if(map(man.x-1, man.y) != 1) {
                 man.dir = man.next_dir;
+                divMan.style.transform = "rotate(270deg)";
                 man.next_dir = 0;
             }
             break;
@@ -143,15 +145,19 @@ function moveBall() {
 
     if(man.dir == 1 && man.next_dir == 3) {
         man.dir = man.next_dir;
+        divMan.style.transform = "rotate(180deg)";
         man.next_dir = 0;
     } else if(man.dir == 2 && man.next_dir == 4) {
         man.dir = man.next_dir;
+        divMan.style.transform = "rotate(270deg)";
         man.next_dir = 0;
     } else if(man.dir == 3 && man.next_dir == 1) {
         man.dir = man.next_dir;
+        divMan.style.transform = "rotate(0deg)";
         man.next_dir = 0;
     } else if(man.dir == 4 && man.next_dir == 2) {
         man.dir = man.next_dir;
+        divMan.style.transform = "rotate(90deg)";
         man.next_dir = 0;
     }
     
@@ -164,6 +170,7 @@ function moveBall() {
     case 2:
         if(map(Math.floor((real_x+2+28-1)/28), man.y) == 0) {
             divMan.style.left = real_x + 2 + "px";
+            divMan.style.transform = "rotate(90deg)"
         }
         break;
     case 3:
