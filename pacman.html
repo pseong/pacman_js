@@ -19,16 +19,21 @@
 <body>
     <div id="tableMap" class="board-padding board"></div>
     <img id="divMan" src="pacman.png" style="position: absolute; left: 28px; top: 28px;"></img>
+    <img id="divGost" src="gost.png" style="position: absolute; left: 560px; top: 56px;"></img>
 </body>
 <script>
 var divMan = document.getElementById('divMan');
+var divGost = document.getElementById('divGost');
 var tableBoard = document.getElementById('tableMap');
 
 var man = {
     dir: 2, // 1 : up, 2: right, 3: down, 4: left
-    next_dir:2,
-    speed:2,
-    animation:1
+    speed: 2,
+}
+
+var gost = {
+    dir:2,
+    speed:2
 }
 
 function map(x, y) {
@@ -42,10 +47,10 @@ var arrMap = [
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
     [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1],
+    [1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -66,16 +71,63 @@ var arrMap = [
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-]
+];
+
+var closedd = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+    [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1],
+    [1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+
+var g = [];
+
+for(var i = 0; i < 30; i++) {
+    g.push([]);
+    for(var j = 0; j < 30; j++) {
+        g[i].push(20000);
+    }
+}
 
 drawBoard();
 
 var arrStar = [];
-setInterval(main, 17);
+setInterval(pacman_main, 17);
 setInterval(animation, 100);
+setInterval(gost_main, 17);
 
-function main() {
-    moveBall();
+function pacman_main() {
+    moveMan();
+}
+
+function gost_main() {
+    moveGost();
 }
 
 function animation() {
@@ -105,7 +157,110 @@ document.onkeypress = function(e) {
     }
 }
 
-function moveBall() {
+var goalx;
+var goaly;
+function h(x, y) {
+    return 2 * (Math.abs(x - goalx) + Math.abs(y - goaly));
+}
+
+var loc = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+
+function moveGost() {
+    real_x = Number(divGost.style.left.split("px")[0]);
+    real_y = Number(divGost.style.top.split("px")[0]);
+    gost.x = Math.floor(real_x/28);
+    gost.y = Math.floor(real_y/28);
+
+    if(real_x % 28 == 0 && real_y % 28 == 0) {
+        const pq = new PriorityQueue((a, b) => a[0] > b[0]);
+        goalx = man.x;
+        goaly = man.y;
+
+        pq.push([-h(gost.x, gost.y), [gost.x, gost.y], 0]);
+        g[gost.y][gost.x] = 0;
+        closedd[gost.y][gost.x] = 1;
+
+        var selected = pq.pop();
+        var f = -selected[1][0];
+        var nowx = selected[1][0];
+        var nowy = selected[1][1];
+
+        if(nowx == goalx && nowy == goaly) {
+            location.reload();
+        }
+
+        var nowg = f - h(nowx, nowy);
+        nowg = nowg + 1;
+
+        for(var i = 0; i < 4; ++i) {
+            var nextx = nowx + loc[i][0];
+            var nexty = nowy + loc[i][1];
+            if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1) {
+                g[nexty][nextx] = nowg;
+                pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], i+1]);
+            }
+        }
+
+        var answer = 1;
+        while(!pq.isEmpty()) {
+            var selected = pq.pop();
+            var f = - selected[0];
+            var nowx = selected[1][0];
+            var nowy = selected[1][1];
+            closedd[nowy][nowx] = 1;
+            var dir = selected[2];
+
+            if(nowx == goalx && nowy == goaly) {
+                answer = dir;
+                break;
+            }
+            var nowg = f - h(nowx, nowy);
+            nowg = nowg + 1;
+
+            for(var i = 0; i < 4; ++i) {
+                var nextx = nowx + loc[i][0];
+                var nexty = nowy + loc[i][1];
+                if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1) {
+                    g[nexty][nextx] = nowg;
+                    pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], dir]);
+                }
+            }
+        }
+
+        for(var i = 0; i < 30; i++) {
+            for(var j = 0; j < 30; j++) {
+                g[i][j] = 0;
+                closedd[i][j] = 0;
+            }
+        }
+        gost.dir = answer;
+    }
+
+    switch(gost.dir) {
+    case 1:
+        if(map(gost.x, Math.floor((real_y-2)/28)) == 0) {
+            divGost.style.top = real_y - 2 + "px";
+        }
+        break;
+    case 2:
+        if(map(Math.floor((real_x+2+28-1)/28), gost.y) == 0) {
+            divGost.style.left = real_x + 2 + "px";
+        }
+        break;
+    case 3:
+        if(map(gost.x, Math.floor((real_y+2+28-1)/28)) == 0) {
+            divGost.style.top = real_y + 2 + "px";
+        }
+        break;
+    case 4:
+        if(map(Math.floor((real_x-2)/28), gost.y) == 0) {
+            divGost.style.left = real_x - 2 + "px";
+        }
+        break;
+    }
+}
+
+function moveMan() {
     real_x = Number(divMan.style.left.split("px")[0]);
     real_y = Number(divMan.style.top.split("px")[0]);
     man.x = Math.floor(real_x/28);
@@ -170,7 +325,6 @@ function moveBall() {
     case 2:
         if(map(Math.floor((real_x+2+28-1)/28), man.y) == 0) {
             divMan.style.left = real_x + 2 + "px";
-            divMan.style.transform = "rotate(90deg)"
         }
         break;
     case 3:
@@ -205,6 +359,74 @@ function drawBoard() {
             tableBoard.appendChild(cell);
         }
     }
+}
+
+const topp = 0;
+const parent = i => ((i + 1) >>> 1) - 1;
+const left = i => (i << 1) + 1;
+const right = i => (i + 1) << 1;
+
+class PriorityQueue {
+  constructor(comparator = (a, b) => a > b) {
+    this._heap = [];
+    this._comparator = comparator;
+  }
+  size() {
+    return this._heap.length;
+  }
+  isEmpty() {
+    return this.size() == 0;
+  }
+  peek() {
+    return this._heap[topp];
+  }
+  push(...values) {
+    values.forEach(value => {
+      this._heap.push(value);
+      this._siftUp();
+    });
+    return this.size();
+  }
+  pop() {
+    const poppedValue = this.peek();
+    const bottom = this.size() - 1;
+    if (bottom > topp) {
+      this._swap(topp, bottom);
+    }
+    this._heap.pop();
+    this._siftDown();
+    return poppedValue;
+  }
+  replace(value) {
+    const replacedValue = this.peek();
+    this._heap[topp] = value;
+    this._siftDown();
+    return replacedValue;
+  }
+  _greater(i, j) {
+    return this._comparator(this._heap[i], this._heap[j]);
+  }
+  _swap(i, j) {
+    [this._heap[i], this._heap[j]] = [this._heap[j], this._heap[i]];
+  }
+  _siftUp() {
+    let node = this.size() - 1;
+    while (node > topp && this._greater(node, parent(node))) {
+      this._swap(node, parent(node));
+      node = parent(node);
+    }
+  }
+  _siftDown() {
+    let node = topp;
+    while (
+      (left(node) < this.size() && this._greater(left(node), node)) ||
+      (right(node) < this.size() && this._greater(right(node), node))
+    ) {
+      let maxChild = (right(node) < this.size() && this._greater(right(node), left(node))) ? right(node) : left(node);
+      this._swap(node, maxChild);
+      node = maxChild;
+    }
+  }
 }
 </script>
 </html>
