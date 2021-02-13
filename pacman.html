@@ -40,10 +40,10 @@ var arrMap = [
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
+    [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -116,43 +116,65 @@ function moveBall() {
         switch(man.next_dir) {
         case 1:
             if(map(man.x, man.y-1) != 1) {
-                man.dir = 1;
+                man.dir = man.next_dir;
                 man.next_dir = 0;
             }
             break;
         case 2:
             if(map(man.x+1, man.y) != 1) {
-                man.dir = 2;
+                man.dir = man.next_dir;
                 man.next_dir = 0;
             }
             break;
         case 3:
             if(map(man.x, man.y+1) != 1) {
-                man.dir = 3;
+                man.dir = man.next_dir;
                 man.next_dir = 0;
             }
             break;
         case 4:
             if(map(man.x-1, man.y) != 1) {
-                man.dir = 4;
+                man.dir = man.next_dir;
                 man.next_dir = 0;
             }
             break;
         }
     }
+
+    if(man.dir == 1 && man.next_dir == 3) {
+        man.dir = man.next_dir;
+        man.next_dir = 0;
+    } else if(man.dir == 2 && man.next_dir == 4) {
+        man.dir = man.next_dir;
+        man.next_dir = 0;
+    } else if(man.dir == 3 && man.next_dir == 1) {
+        man.dir = man.next_dir;
+        man.next_dir = 0;
+    } else if(man.dir == 4 && man.next_dir == 2) {
+        man.dir = man.next_dir;
+        man.next_dir = 0;
+    }
     
     switch(man.dir) {
     case 1:
-        divMan.style.top = real_y - 2 + "px";
+        if(map(man.x, Math.floor((real_y-2)/28)) == 0) {
+            divMan.style.top = real_y - 2 + "px";
+        }
         break;
     case 2:
-        divMan.style.left = real_x + 2 + "px";
+        if(map(Math.floor((real_x+2+28-1)/28), man.y) == 0) {
+            divMan.style.left = real_x + 2 + "px";
+        }
         break;
     case 3:
-        divMan.style.top = real_y + 2 + "px";
+        if(map(man.x, Math.floor((real_y+2+28-1)/28)) == 0) {
+            divMan.style.top = real_y + 2 + "px";
+        }
         break;
     case 4:
-        divMan.style.left = real_x - 2 + "px";
+        if(map(Math.floor((real_x-2)/28), man.y) == 0) {
+            divMan.style.left = real_x - 2 + "px";
+        }
         break;
     }
 }
