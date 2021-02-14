@@ -28,11 +28,10 @@ var man = {
     dir: 2, // 1 : up, 2: right, 3: down, 4: left
 }
 
-function Gost(x, y, speed) {
+function Gost(x, y) {
     var x = x;
     var y = y;
     var dir = 2;
-    var speed = speed;
 
     var divGost = document.createElement('img');
     divGost.src = "gost.png";
@@ -88,6 +87,11 @@ function Gost(x, y, speed) {
         this.x = Math.floor(real_x/28);
         this.y = Math.floor(real_y/28);
 
+        if(man.real_x < real_x+28 && man.real_x+28 > real_x &&
+            man.real_y < real_y+28 && man.real_y+28 > real_y) {
+            location.reload();
+        } 
+
         if(real_x % 28 == 0 && real_y % 28 == 0) {
             const pq = new PriorityQueue((a, b) => a[0] > b[0]);
             goalx = man.x;
@@ -101,10 +105,6 @@ function Gost(x, y, speed) {
             var f = -selected[1][0];
             var nowx = selected[1][0];
             var nowy = selected[1][1];
-
-            if(nowx == goalx && nowy == goaly) {
-                location.reload();
-            }
 
             var nowg = f - h(nowx, nowy);
             nowg = nowg + 1;
@@ -216,7 +216,6 @@ var arrMap = [
 ];
 
 var g = [];
-
 for(var i = 0; i < 30; i++) {
     g.push([]);
     for(var j = 0; j < 30; j++) {
@@ -227,15 +226,17 @@ for(var i = 0; i < 30; i++) {
 drawBoard();
 
 var arrStar = [];
-setInterval(pacman_main, 17);
+setInterval(pacman_main, 8);
 setInterval(animation, 100);
+
+gost = new Gost(2, 10);
 setInterval(gost_main, 17);
+function gost_main() { gost.moveGost(); }
 
-gost = new Gost(2, 10, 17);
+gost2 = new Gost(4, 20);
+setInterval(gost2_main, 15);
+function gost2_main() { gost2.moveGost(); }
 
-function gost_main() {
-    gost.moveGost();
-}
 function pacman_main() {
     moveMan();
 }
@@ -270,11 +271,11 @@ document.onkeypress = function(e) {
 var loc = [[0, -1], [1, 0], [0, 1], [-1, 0]];
 
 function moveMan() {
-    real_x = Number(divMan.style.left.split("px")[0]);
-    real_y = Number(divMan.style.top.split("px")[0]);
-    man.x = Math.floor(real_x/28);
-    man.y = Math.floor(real_y/28);
-    if(real_x % 28 == 0 && real_y % 28 == 0) {
+    man.real_x = Number(divMan.style.left.split("px")[0]);
+    man.real_y = Number(divMan.style.top.split("px")[0]);
+    man.x = Math.floor(man.real_x/28);
+    man.y = Math.floor(man.real_y/28);
+    if(man.real_x % 28 == 0 && man.real_y % 28 == 0) {
         switch(man.next_dir) {
         case 1:
             if(map(man.x, man.y-1) != 1) {
@@ -327,23 +328,23 @@ function moveMan() {
     
     switch(man.dir) {
     case 1:
-        if(map(man.x, Math.floor((real_y-2)/28)) == 0) {
-            divMan.style.top = real_y - 2 + "px";
+        if(map(man.x, Math.floor((man.real_y-2)/28)) == 0) {
+            divMan.style.top = man.real_y - 2 + "px";
         }
         break;
     case 2:
-        if(map(Math.floor((real_x+2+28-1)/28), man.y) == 0) {
-            divMan.style.left = real_x + 2 + "px";
+        if(map(Math.floor((man.real_x+2+28-1)/28), man.y) == 0) {
+            divMan.style.left = man.real_x + 2 + "px";
         }
         break;
     case 3:
-        if(map(man.x, Math.floor((real_y+2+28-1)/28)) == 0) {
-            divMan.style.top = real_y + 2 + "px";
+        if(map(man.x, Math.floor((man.real_y+2+28-1)/28)) == 0) {
+            divMan.style.top = man.real_y + 2 + "px";
         }
         break;
     case 4:
-        if(map(Math.floor((real_x-2)/28), man.y) == 0) {
-            divMan.style.left = real_x - 2 + "px";
+        if(map(Math.floor((man.real_x-2)/28), man.y) == 0) {
+            divMan.style.left = man.real_x - 2 + "px";
         }
         break;
     }
