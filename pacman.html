@@ -19,21 +19,163 @@
 <body>
     <div id="tableMap" class="board-padding board"></div>
     <img id="divMan" src="pacman.png" style="position: absolute; left: 28px; top: 28px;"></img>
-    <img id="divGost" src="gost.png" style="position: absolute; left: 560px; top: 56px;"></img>
 </body>
 <script>
 var divMan = document.getElementById('divMan');
-var divGost = document.getElementById('divGost');
 var tableBoard = document.getElementById('tableMap');
 
 var man = {
     dir: 2, // 1 : up, 2: right, 3: down, 4: left
-    speed: 2,
 }
 
-var gost = {
-    dir:2,
-    speed:2
+function Gost(x, y, speed) {
+    var x = x;
+    var y = y;
+    var dir = 2;
+    var speed = speed;
+
+    var divGost = document.createElement('img');
+    divGost.src = "gost.png";
+    divGost.style.position = "absolute";
+    divGost.style.left = x*28+"px";
+    divGost.style.top = y*28+"px";
+    divGost.style.width = "28px";
+    divGost.style.height = "28px";
+    divGost.id = "divGost";
+    document.body.appendChild(divGost);
+
+    this.closedd = [
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    ];
+    var goalx = man.x;
+    var goaly = man.y;
+    h = function(x, y) {
+        return 2 * (Math.abs(x - goalx) + Math.abs(y - goaly));
+    }
+    
+    this.moveGost = function() {
+        real_x = Number(divGost.style.left.split("px")[0]);
+        real_y = Number(divGost.style.top.split("px")[0]);
+        this.x = Math.floor(real_x/28);
+        this.y = Math.floor(real_y/28);
+
+        if(real_x % 28 == 0 && real_y % 28 == 0) {
+            const pq = new PriorityQueue((a, b) => a[0] > b[0]);
+            goalx = man.x;
+            goaly = man.y;
+
+            pq.push([-h(this.x, this.y), [this.x, this.y], 0]);
+            g[this.y][this.x] = 0;
+            this.closedd[this.y][this.x] = 1;
+
+            var selected = pq.pop();
+            var f = -selected[1][0];
+            var nowx = selected[1][0];
+            var nowy = selected[1][1];
+
+            if(nowx == goalx && nowy == goaly) {
+                location.reload();
+            }
+
+            var nowg = f - h(nowx, nowy);
+            nowg = nowg + 1;
+
+            for(var i = 0; i < 4; ++i) {
+                var nextx = nowx + loc[i][0];
+                var nexty = nowy + loc[i][1];
+                if(this.closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1) {
+                    g[nexty][nextx] = nowg;
+                    pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], i+1]);
+                }
+            }
+
+            var answer = this.dir;
+            while(!pq.isEmpty()) {
+                var selected = pq.pop();
+                var f = - selected[0];
+                var nowx = selected[1][0];
+                var nowy = selected[1][1];
+                this.closedd[nowy][nowx] = 1;
+                var dir = selected[2];
+
+                if(nowx == goalx && nowy == goaly) {
+                    answer = dir;
+                    break;
+                }
+                var nowg = f - h(nowx, nowy);
+                nowg = nowg + 1;
+
+                for(var i = 0; i < 4; ++i) {
+                    var nextx = nowx + loc[i][0];
+                    var nexty = nowy + loc[i][1];
+                    if(this.closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1 && g[nexty][nextx] > nowg) {
+                        g[nexty][nextx] = nowg;
+                        pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], dir]);
+                    }
+                }
+            }
+
+            for(var i = 0; i < 30; i++) {
+                for(var j = 0; j < 30; j++) {
+                    g[i][j] = 0;
+                    this.closedd[i][j] = 0;
+                }
+            }
+            this.dir = answer;
+        }
+
+        switch(this.dir) {
+        case 1:
+            if(map(this.x, Math.floor((real_y-2)/28)) == 0) {
+                divGost.style.top = real_y - 2 + "px";
+            }
+            break;
+        case 2:
+            if(map(Math.floor((real_x+2+28-1)/28), this.y) == 0) {
+                divGost.style.left = real_x + 2 + "px";
+            }
+            break;
+        case 3:
+            if(map(this.x, Math.floor((real_y+2+28-1)/28)) == 0) {
+                divGost.style.top = real_y + 2 + "px";
+            }
+            break;
+        case 4:
+            if(map(Math.floor((real_x-2)/28), this.y) == 0) {
+                divGost.style.left = real_x - 2 + "px";
+            }
+            break;
+        }
+    }
 }
 
 function map(x, y) {
@@ -41,39 +183,6 @@ function map(x, y) {
 }
 
 var arrMap = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1],
-    [1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-];
-
-var closedd = [
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -122,12 +231,13 @@ setInterval(pacman_main, 17);
 setInterval(animation, 100);
 setInterval(gost_main, 17);
 
-function pacman_main() {
-    moveMan();
-}
+gost = new Gost(2, 10, 17);
 
 function gost_main() {
-    moveGost();
+    gost.moveGost();
+}
+function pacman_main() {
+    moveMan();
 }
 
 function animation() {
@@ -157,108 +267,7 @@ document.onkeypress = function(e) {
     }
 }
 
-var goalx;
-var goaly;
-function h(x, y) {
-    return 2 * (Math.abs(x - goalx) + Math.abs(y - goaly));
-}
-
 var loc = [[0, -1], [1, 0], [0, 1], [-1, 0]];
-
-function moveGost() {
-    real_x = Number(divGost.style.left.split("px")[0]);
-    real_y = Number(divGost.style.top.split("px")[0]);
-    gost.x = Math.floor(real_x/28);
-    gost.y = Math.floor(real_y/28);
-
-    if(real_x % 28 == 0 && real_y % 28 == 0) {
-        const pq = new PriorityQueue((a, b) => a[0] > b[0]);
-        goalx = man.x;
-        goaly = man.y;
-
-        pq.push([-h(gost.x, gost.y), [gost.x, gost.y], 0]);
-        g[gost.y][gost.x] = 0;
-        closedd[gost.y][gost.x] = 1;
-
-        var selected = pq.pop();
-        var f = -selected[1][0];
-        var nowx = selected[1][0];
-        var nowy = selected[1][1];
-
-        if(nowx == goalx && nowy == goaly) {
-            location.reload();
-        }
-
-        var nowg = f - h(nowx, nowy);
-        nowg = nowg + 1;
-
-        for(var i = 0; i < 4; ++i) {
-            var nextx = nowx + loc[i][0];
-            var nexty = nowy + loc[i][1];
-            if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1) {
-                g[nexty][nextx] = nowg;
-                pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], i+1]);
-            }
-        }
-
-        var answer = gost.dir;
-        while(!pq.isEmpty()) {
-            var selected = pq.pop();
-            var f = - selected[0];
-            var nowx = selected[1][0];
-            var nowy = selected[1][1];
-            closedd[nowy][nowx] = 1;
-            var dir = selected[2];
-
-            if(nowx == goalx && nowy == goaly) {
-                answer = dir;
-                break;
-            }
-            var nowg = f - h(nowx, nowy);
-            nowg = nowg + 1;
-
-            for(var i = 0; i < 4; ++i) {
-                var nextx = nowx + loc[i][0];
-                var nexty = nowy + loc[i][1];
-                if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1 && g[nexty][nextx] > nowg) {
-                    g[nexty][nextx] = nowg;
-                    pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], dir]);
-                }
-            }
-        }
-
-        for(var i = 0; i < 30; i++) {
-            for(var j = 0; j < 30; j++) {
-                g[i][j] = 0;
-                closedd[i][j] = 0;
-            }
-        }
-        gost.dir = answer;
-    }
-
-    switch(gost.dir) {
-    case 1:
-        if(map(gost.x, Math.floor((real_y-2)/28)) == 0) {
-            divGost.style.top = real_y - 2 + "px";
-        }
-        break;
-    case 2:
-        if(map(Math.floor((real_x+2+28-1)/28), gost.y) == 0) {
-            divGost.style.left = real_x + 2 + "px";
-        }
-        break;
-    case 3:
-        if(map(gost.x, Math.floor((real_y+2+28-1)/28)) == 0) {
-            divGost.style.top = real_y + 2 + "px";
-        }
-        break;
-    case 4:
-        if(map(Math.floor((real_x-2)/28), gost.y) == 0) {
-            divGost.style.left = real_x - 2 + "px";
-        }
-        break;
-    }
-}
 
 function moveMan() {
     real_x = Number(divMan.style.left.split("px")[0]);
