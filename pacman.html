@@ -201,7 +201,7 @@ function moveGost() {
             }
         }
 
-        var answer = 1;
+        var answer = gost.dir;
         while(!pq.isEmpty()) {
             var selected = pq.pop();
             var f = - selected[0];
@@ -220,7 +220,7 @@ function moveGost() {
             for(var i = 0; i < 4; ++i) {
                 var nextx = nowx + loc[i][0];
                 var nexty = nowy + loc[i][1];
-                if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1) {
+                if(closedd[nexty][nextx] != 1 && map(nextx, nexty) != 1 && g[nexty][nextx] > nowg) {
                     g[nexty][nextx] = nowg;
                     pq.push([-(nowg + h(nextx, nexty)), [nextx, nexty], dir]);
                 }
