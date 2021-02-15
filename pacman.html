@@ -144,8 +144,8 @@ function Gost(x, y) {
                 }
             }
 
-            for(var i = 0; i < 30; i++) {
-                for(var j = 0; j < 30; j++) {
+            for(var i = 0; i < 10; i++) {
+                for(var j = 0; j < 40; j++) {
                     g[i][j] = 0;
                     this.closedd[i][j] = 0;
                 }
@@ -155,22 +155,22 @@ function Gost(x, y) {
 
         switch(this.dir) {
         case 1:
-            if(map(this.x, Math.floor((real_y-2)/28)) == 0) {
+            if(map(this.x, Math.floor((real_y-2)/28)) != 1) {
                 divGost.style.top = real_y - 2 + "px";
             }
             break;
         case 2:
-            if(map(Math.floor((real_x+2+28-1)/28), this.y) == 0) {
+            if(map(Math.floor((real_x+2+28-1)/28), this.y) != 1) {
                 divGost.style.left = real_x + 2 + "px";
             }
             break;
         case 3:
-            if(map(this.x, Math.floor((real_y+2+28-1)/28)) == 0) {
+            if(map(this.x, Math.floor((real_y+2+28-1)/28)) != 1) {
                 divGost.style.top = real_y + 2 + "px";
             }
             break;
         case 4:
-            if(map(Math.floor((real_x-2)/28), this.y) == 0) {
+            if(map(Math.floor((real_x-2)/28), this.y) != 1) {
                 divGost.style.left = real_x - 2 + "px";
             }
             break;
@@ -183,42 +183,22 @@ function map(x, y) {
 }
 
 var arrMap = [
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,1,1,1,0,1,1,1,1,1,1,1,1],
-    [1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,0,0,1,1,1],
-    [1,0,1,0,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,1,1,1,1,0,1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1],
-    [1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],
-    [1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 
 var g = [];
-for(var i = 0; i < 30; i++) {
+for(var i = 0; i < 40; i++) {
     g.push([]);
-    for(var j = 0; j < 30; j++) {
+    for(var j = 0; j < 10; j++) {
         g[i].push(20000);
     }
 }
@@ -226,24 +206,16 @@ for(var i = 0; i < 30; i++) {
 drawBoard();
 
 var arrStar = [];
-setInterval(pacman_main, 17);
+setInterval(pacman_main, 25);
 setInterval(animation, 100);
 
-gost = new Gost(2, 10);
-setInterval(gost_main, 17);
+gost = new Gost(10, 4);
+setInterval(gost_main, 24);
 function gost_main() { gost.moveGost(); }
 
-gost2 = new Gost(10, 20);
-setInterval(gost2_main, 17);
+gost2 = new Gost(25, 8);
+setInterval(gost2_main, 24);
 function gost2_main() { gost2.moveGost(); }
-
-gost3 = new Gost(13, 20);
-setInterval(gost3_main, 16);
-function gost3_main() { gost3.moveGost(); }
-
-gost4 = new Gost(4, 20);
-setInterval(gost4_main, 16);
-function gost4_main() { gost4.moveGost(); }
 
 function pacman_main() {
     moveMan();
@@ -275,6 +247,8 @@ document.onkeypress = function(e) {
         break;
     }
 }
+
+
 
 var loc = [[0, -1], [1, 0], [0, 1], [-1, 0]];
 
@@ -336,28 +310,53 @@ function moveMan() {
     
     switch(man.dir) {
     case 1:
-        if(map(man.x, Math.floor((man.real_y-2)/28)) == 0) {
+        if(map(man.x, Math.floor((man.real_y-2)/28)) != 1) {
             divMan.style.top = man.real_y - 2 + "px";
+            if(map(man.x, Math.floor((man.real_y-2)/28)) == 2) {
+                dust_count--;
+                arrMap[Math.floor((man.real_y-2)/28)][man.x] = 0;
+                var cell = document.getElementById(Math.floor((man.real_y-2)/28) + ',' + man.x);
+                cell.children[0].style.background = "#00000000";
+            }
         }
         break;
     case 2:
-        if(map(Math.floor((man.real_x+2+28-1)/28), man.y) == 0) {
+        if(map(Math.floor((man.real_x+2+28-1)/28), man.y) != 1) {
             divMan.style.left = man.real_x + 2 + "px";
+            if(map(Math.floor((man.real_x+2+28-1)/28), man.y) == 2) {
+                dust_count--;
+                arrMap[man.y][Math.floor((man.real_x+2+28-1)/28)] = 0;
+                var cell = document.getElementById(man.y + ',' + Math.floor((man.real_x+2+28-1)/28));
+                cell.children[0].style.background = '#00000000'
+            }
         }
         break;
     case 3:
-        if(map(man.x, Math.floor((man.real_y+2+28-1)/28)) == 0) {
+        if(map(man.x, Math.floor((man.real_y+2+28-1)/28)) != 1) {
             divMan.style.top = man.real_y + 2 + "px";
+            if(map(man.x, Math.floor((man.real_y+2+28-1)/28)) == 2) {
+                dust_count--;
+                arrMap[Math.floor((man.real_y+2+28-1)/28)][man.x] = 0;
+                var cell = document.getElementById(Math.floor((man.real_y+2+28-1)/28) + ',' + man.x);
+                cell.children[0].style.background = '#00000000';
+            }
         }
         break;
     case 4:
-        if(map(Math.floor((man.real_x-2)/28), man.y) == 0) {
+        if(map(Math.floor((man.real_x-2)/28), man.y) != 1) {
             divMan.style.left = man.real_x - 2 + "px";
+            if(map(Math.floor((man.real_x-2)/28), man.y) == 2) {
+                dust_count--;
+                arrMap[man.y][Math.floor((man.real_x-2)/28)] = 0;
+                var cell = document.getElementById(man.y + ',' + Math.floor((man.real_x-2)/28));
+                cell.children[0].style.background = '#00000000';
+            }
         }
         break;
     }
 }
 
+var dust_count = 0;
 function drawBoard() {
     for(var i = 0; i < arrMap.length; i++) {
         for(var j = 0; j < arrMap[i].length; j++) {
@@ -367,13 +366,25 @@ function drawBoard() {
             cell.style.width = "28px";
             cell.style.left = j * 28 + "px";
             cell.style.top = i * 28 + "px";
+            cell.id = i + ',' + j;
 
             if(arrMap[i][j] == 0) {
                 cell.style.backgroundColor = "black";
+
+                var dust = document.createElement('div');
+                dust.style.width = '4px';
+                dust.style.height = '4px';
+                dust.style.marginLeft = '12px';
+                dust.style.marginTop = '12px';
+                dust.style.background = 'white';
+                dust.style.borderRadius = '2px';
+                dust_count++;
+                arrMap[i][j] = 2;
+
+                cell.appendChild(dust);
             } else {
                 cell.style.backgroundColor = "blue";
             }
-
             tableBoard.appendChild(cell);
         }
     }
